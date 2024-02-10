@@ -1,7 +1,12 @@
 ---
+- name: get ubuntu version
+  shell: lsb_release -r -s
+  register: result
+  changed_when: False
+
 - name: install zabbix repository
   apt:
-    deb: "{{ zabbix_agent.release_deb_url }}"
+    deb: "https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest%2Bubuntu{{ result.stdout }}_all.deb"
 
 - name: install packages
   apt:
