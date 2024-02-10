@@ -1,0 +1,6 @@
+---
+- hosts: default
+  become: yes
+  roles:
+    - ubuntu22-common
+    - zabbix-agent

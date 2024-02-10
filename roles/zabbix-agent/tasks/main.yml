@@ -1,0 +1,18 @@
+---
+- name: install zabbix repository
+  apt:
+    deb: "{{ zabbix_agent.release_deb_url }}"
+
+- name: install packages
+  apt:
+    name:
+      - zabbix-agent
+    update_cache: yes
+
+- name: put config files
+  template:
+    src: "{{ item }}"
+    dest: "{{ item | regex_replace('^.*\\.\\./templates','') | regex_replace('\\.j2$','') }}"
+  with_fileglob:
+    - ../templates/etc/zabbix/zabbix_agentd.d/*.j2
+  notify: restart zabbix-agent
